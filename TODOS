@@ -1,0 +1,41 @@
+## Tables
+
+User
+Summary
+Product
+ProductImages
+ShippingInformation
+PaymentMethod
+CardInfo
+RecentTransactions
+BankAccount
+
+## Seller
+
+Sig-in
+Log-in
+Manage Product
+View Transactions
+Manage Bank Account
+Edit Profile
+Change Pass
+Generate Link
+Be Notify by mail
+Be Notify by sms
+
+## Buyer
+
+Click Link
+View Product
+Choose Product
+Enter Personal Information
+Enter Shipping Information
+Choose Payment Method
+Make Payment
+
+## 3rd Party Libraries
+
+Sockets
+MailGun
+Twilio
+Stripe
