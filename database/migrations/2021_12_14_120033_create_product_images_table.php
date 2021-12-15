@@ -12,10 +12,12 @@ class CreateProductImagesTable extends Migration
         Schema::create('product_images', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+
             $table->foreignId('product_id')
                 ->constrained('products')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+
             $table->string('url');
         });
     }

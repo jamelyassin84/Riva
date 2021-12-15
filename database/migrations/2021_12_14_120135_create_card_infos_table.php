@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateCardInfosTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('card_infos', function (Blueprint $table) {
@@ -19,11 +14,6 @@ class CreateCardInfosTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('card_infos');
