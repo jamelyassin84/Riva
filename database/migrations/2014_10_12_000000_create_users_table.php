@@ -27,12 +27,15 @@ class CreateUsersTable extends Migration
             $table->string('avatar')
                 ->nullable();
 
-            $table->string('mode');
-            $table->string('facebook')
-                ->nullable();
+            $table->enum('mode', ['Google', 'Facebook', 'Apple' . 'Default']);
+
 
             $table->string('google')
                 ->nullable();
+
+            $table->string('facebook')
+                ->nullable();
+
 
             $table->string('apple')
                 ->nullable();
