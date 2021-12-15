@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('description');
             $table->string('currency', 3);
             $table->string('slug');
+            $table->string('image-url');
         });
     }
 
