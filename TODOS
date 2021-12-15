@@ -35,7 +35,7 @@ Make Payment
 
 ## 3rd Party Libraries
 
-Sockets
 MailGun
 Twilio
 Stripe
+Sockets.io

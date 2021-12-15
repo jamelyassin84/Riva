@@ -23,5 +23,6 @@ class Product extends Model
         'sizes',
         'colors',
         'is_sold_out',
+        'user_id'
     ];
 }

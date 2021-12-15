@@ -15,15 +15,15 @@ class CreateProductsTable extends Migration
             $table->string('product_name');
             $table->string('image-url');
             $table->string('slug');
+            $table->integer('quantity');
+            $table->string('currency', 3);
+            $table->double('price');
             $table->string('brief_description')
                 ->nullable();
 
             $table->string('description')
                 ->nullable();
 
-            $table->integer('quantity');
-            $table->string('currency', 3);
-            $table->double('price');
             $table->double('discounted_price')
                 ->nullable();
 
@@ -37,6 +37,12 @@ class CreateProductsTable extends Migration
                 ->nullable();
 
             $table->boolean('is_sold_out');
+
+            $table->integer('user_id')
+                ->foreignIdFor(User::class)
+                ->constrained('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 
