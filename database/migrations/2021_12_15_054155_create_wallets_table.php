@@ -1,17 +1,17 @@
 <?php
 
-use App\Models\CardInfo;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePaymentMethodsTable extends Migration
+class CreateWalletsTable extends Migration
 {
     public function up()
     {
-        Schema::create('payment_methods', function (Blueprint $table) {
+        Schema::create('wallets', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+
 
             $table->foreignId('user_id')
                 ->foreignIdFor(User::class)
@@ -19,16 +19,12 @@ class CreatePaymentMethodsTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->foreignId('card_id')
-                ->foreignIdFor(CardInfo::class)
-                ->constrained('card_infos')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            $table->double('balance');
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('payment_methods');
+        Schema::dropIfExists('wallets');
     }
 }
