@@ -18,6 +18,7 @@ class User extends Authenticatable
         'password',
         'avatar',
         'phone',
+        'alt_phone',
         'mode',
     ];
 

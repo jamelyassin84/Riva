@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->double('price');
             $table->double('discounted_price');
             $table->string('size_type');
-            $table->string('sizes');
+            $table->integer('sizes');
             $table->string('colors');
         });
     }
