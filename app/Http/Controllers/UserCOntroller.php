@@ -4,19 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class UserCOntroller extends Controller
+class UserController extends Controller
 {
-    public function index()
+
+    public function register($id)
     {
         //
     }
 
-    public function store(Request $request)
-    {
-        //
-    }
 
-    public function show($id)
+    public function login()
     {
         //
     }
