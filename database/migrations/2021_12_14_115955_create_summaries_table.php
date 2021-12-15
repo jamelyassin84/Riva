@@ -6,24 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateSummariesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
         Schema::create('summaries', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('user_id')->constrained('products')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('summaries');
