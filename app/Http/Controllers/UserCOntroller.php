@@ -18,9 +18,11 @@ class UserController extends Controller
         if ($user->mode === 'Google') {
             self::login_with_Google($user);
         }
+
         if ($user->mode === 'Facebook') {
             self::login_with_Facebook($user);
         }
+
         if ($user->mode === 'Apple') {
             self::login_with_Apple($user);
         }
@@ -32,9 +34,11 @@ class UserController extends Controller
     {
         $user = User::where('google', $user->email)
             ->first();
+
         if ($user . isEmpty()) {
             self::register($user);
         }
+
         return self::user($user);
     }
 
@@ -42,9 +46,11 @@ class UserController extends Controller
     {
         $user = User::where('facebook', $user->email)
             ->first();
+
         if ($user . isEmpty()) {
             self::register($user);
         }
+
         return self::user($user);
     }
 
@@ -52,6 +58,7 @@ class UserController extends Controller
     {
         $user = User::where('apple', $user->email)
             ->first();
+
         if ($user . isEmpty()) {
             self::register($user);
         }
@@ -101,7 +108,9 @@ class UserController extends Controller
         ]);
 
         $user->password = Hash::make($request->password);
+
         $user->remember_token = $user->createToken($user);
+
         $user = User::create($user);
 
         return [
@@ -114,13 +123,16 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::where('id', $id)->first();
+
         $user->fill($request)->save();
+
         return  response('Updated', 200);
     }
 
     public function destroy($id)
     {
         User::findOrFail($id)->delete();
+
         return  response('Deleted', 200);
     }
 }
