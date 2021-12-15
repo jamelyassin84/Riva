@@ -16,11 +16,13 @@ class Product extends Model
         'image-url',
         'brief_description',
         'description',
+        'quantity',
         'currency',
         'price',
         'discounted_price',
         'size_type',
         'sizes',
         'colors',
+        'is_sold_out',
     ];
 }

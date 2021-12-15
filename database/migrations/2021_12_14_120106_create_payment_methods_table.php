@@ -13,7 +13,6 @@ class CreatePaymentMethodsTable extends Migration
             $table->timestamps();
 
             $table->string('method');
-
             $table->string('card_number')
                 ->nullable();
 

@@ -12,23 +12,18 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-
             $table->string('product_name');
-
             $table->string('image-url');
-
             $table->string('slug');
-
             $table->string('brief_description')
                 ->nullable();
 
             $table->string('description')
                 ->nullable();
 
+            $table->integer('quantity');
             $table->string('currency', 3);
-
             $table->double('price');
-
             $table->double('discounted_price')
                 ->nullable();
 
@@ -40,6 +35,8 @@ class CreateProductsTable extends Migration
 
             $table->string('colors')
                 ->nullable();
+
+            $table->boolean('is_sold_out');
         });
     }
 

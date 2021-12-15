@@ -13,14 +13,11 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->rememberToken();
             $table->timestamps();
-
             $table->string('name');
-
             $table->string('email')
                 ->unique();
 
             $table->string('password');
-
             $table->string('phone')
                 ->nullable();
 
@@ -31,7 +28,6 @@ class CreateUsersTable extends Migration
                 ->nullable();
 
             $table->string('mode');
-
             $table->string('facebook')
                 ->nullable();
 

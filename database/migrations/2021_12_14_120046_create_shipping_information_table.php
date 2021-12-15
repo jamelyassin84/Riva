@@ -12,7 +12,6 @@ class CreateShippingInformationTable extends Migration
         Schema::create('shipping_information', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-
             $table->string('country');
 
             $table->string('state')
