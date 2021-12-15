@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Summary;
 use Illuminate\Http\Request;
 
-use function PHPUnit\Framework\isEmpty;
-
 class SummaryController extends Controller
 {
     public function store($data)
