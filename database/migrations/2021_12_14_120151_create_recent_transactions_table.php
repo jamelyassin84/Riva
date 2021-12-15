@@ -15,19 +15,19 @@ class CreateRecentTransactionsTable extends Migration
 
             $table->timestamps();
 
-            $table->foreignId('product_id')
+            $table->integer('product_id')
                 ->foreignIdFor(Product::class)
                 ->constrained('products')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->foreignId('seller')
+            $table->integer('seller')
                 ->foreignIdFor(User::class)
                 ->constrained('user')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->foreignId('buyer')
+            $table->integer('buyer')
                 ->foreignIdFor(User::class)
                 ->constrained('user')
                 ->onUpdate('cascade')

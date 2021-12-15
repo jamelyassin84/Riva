@@ -12,8 +12,7 @@ class CreateWalletsTable extends Migration
             $table->id();
             $table->timestamps();
 
-
-            $table->foreignId('user_id')
+            $table->integer('user_id')
                 ->foreignIdFor(User::class)
                 ->constrained('users')
                 ->onUpdate('cascade')

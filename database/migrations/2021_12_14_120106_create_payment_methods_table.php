@@ -13,13 +13,13 @@ class CreatePaymentMethodsTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->foreignId('user_id')
+            $table->integer('user_id')
                 ->foreignIdFor(User::class)
                 ->constrained('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->foreignId('card_id')
+            $table->integer('card_id')
                 ->foreignIdFor(CardInfo::class)
                 ->constrained('card_infos')
                 ->onUpdate('cascade')

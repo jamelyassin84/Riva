@@ -14,13 +14,13 @@ class CreateSummariesTable extends Migration
         Schema::create('summaries', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('product_id')
+            $table->integer('product_id')
                 ->foreignIdFor(Product::class)
                 ->constrained('products')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->foreignId('user_id')
+            $table->integer('user_id')
                 ->foreignIdFor(User::class)
                 ->constrained('users')
                 ->onUpdate('cascade')

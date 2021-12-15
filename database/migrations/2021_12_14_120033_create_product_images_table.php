@@ -13,7 +13,7 @@ class CreateProductImagesTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->foreignId('product_id')
+            $table->integer('product_id')
                 ->constrained('products')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
