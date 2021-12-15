@@ -13,12 +13,16 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('product_name');
-            $table->double('price');
-            $table->double('discounted_price');
+            $table->string('image-url');
+            $table->string('slug');
+            $table->string('brief_description');
             $table->string('description');
             $table->string('currency', 3);
-            $table->string('slug');
-            $table->string('image-url');
+            $table->double('price');
+            $table->double('discounted_price');
+            $table->string('size_type');
+            $table->string('sizes');
+            $table->string('colors');
         });
     }
 

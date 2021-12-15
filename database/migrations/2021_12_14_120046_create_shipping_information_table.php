@@ -6,11 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateShippingInformationTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
         Schema::create('shipping_information', function (Blueprint $table) {
@@ -19,11 +15,6 @@ class CreateShippingInformationTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('shipping_information');

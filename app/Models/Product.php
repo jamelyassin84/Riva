@@ -12,12 +12,15 @@ class Product extends Model
 
     protected $fillable = [
         'product_name',
-        'price',
-        'discounted_price',
+        'slug',
+        'image-url',
+        'brief_description',
         'description',
         'currency',
-        'currency',
-        'slug',
-        'image',
+        'price',
+        'discounted_price',
+        'size_type',
+        'sizes',
+        'colors',
     ];
 }
