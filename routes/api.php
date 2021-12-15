@@ -16,14 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->group('/', function () {
+Route::middleware(['auth:sanctum'])->group(
+    function () {
+        Route::prefix('auth/')->group(function () {
+            Route::post('login', [UserController::class, 'login']);
+            Route::post('register', [UserController::class, 'register']);
+        });
 
-    Route::group('auth/', function () {
-        Route::post('login', [UserController::class, 'login']);
-        Route::post('register', [UserController::class, 'register']);
-    });
-
-    Route::resource('products', ProductController::class);
-    Route::resource('summary', SummaryController::class);
-    Route::post('summary/show', [SummaryController::class, 'summary']);
-});
+        Route::resource('/products', ProductController::class);
+        Route::resource('/summary', SummaryController::class);
+        Route::post('/summary/show', [SummaryController::class, 'summary']);
+    }
+);
