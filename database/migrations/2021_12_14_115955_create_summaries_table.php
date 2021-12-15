@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateSummariesTable extends Migration
 {
-
     public function up()
     {
         Schema::create('summaries', function (Blueprint $table) {
@@ -25,6 +24,8 @@ class CreateSummariesTable extends Migration
                 ->constrained('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+
+            $table->integer('sold');
         });
     }
 

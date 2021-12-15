@@ -13,4 +13,9 @@ class Summary extends Model
         'product_id',
         'user_id',
     ];
-} 
+
+    public function  products()
+    {
+        return $this->hasOne(Product::class, 'id', 'product_id');
+    }
+}
