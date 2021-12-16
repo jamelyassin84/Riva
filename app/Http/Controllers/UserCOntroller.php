@@ -102,18 +102,23 @@ class UserController extends Controller
     {
         $user = $request->validate([
             'mode' => ['required'],
-            'name' => ['required', 'min:8'],
-            'email' => ['email:rfc,dns', 'unique:users'],
-            'password' => [
-                'sometimes|nullable|required',
-                Password::min(8)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols()
-                    ->uncompromised()
-            ],
         ]);
+
+        if ($user['mode'] === 'Default') {
+            $user = $request->validate([
+                'name' => ['required', 'min:8'],
+                'email' => ['email:rfc,dns', 'unique:users'],
+                'password' => [
+                    'required',
+                    Password::min(8)
+                        ->letters()
+                        ->mixedCase()
+                        ->numbers()
+                        ->symbols()
+                        ->uncompromised()
+                ],
+            ]);
+        }
 
         $user['password'] = Hash::make($request->password);
 
