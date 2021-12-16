@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -97,25 +98,28 @@ class UserController extends Controller
 
         return  response('Invalid Mode', 401);
     }
-
-    public static function register(User $request)
+    public static function register(Request $request)
     {
         $user = $request->validate([
-            'name' => ['required'],
-            'email' => ['required'],
-            'name' => ['required'],
             'mode' => ['required'],
+            'name' => ['required', 'min:8'],
+            'email' => ['email:rfc,dns', 'unique:users'],
+            'password' => [
+                'sometimes|nullable|required',
+                Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
+            ],
         ]);
 
-        $user->password = Hash::make($request->password);
-
-        $user->remember_token = $user->createToken($user);
+        $user['password'] = Hash::make($request->password);
 
         $user = User::create($user);
-
         return [
             'user' => $user,
-            'token' => $user->remember_token,
             'message' => 'Created',
         ];
     }
