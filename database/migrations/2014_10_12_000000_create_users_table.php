@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
 {
-
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
@@ -17,7 +16,9 @@ class CreateUsersTable extends Migration
             $table->string('email')
                 ->unique();
 
-            $table->string('password');
+            $table->string('password')
+                ->nullable();
+
             $table->string('phone')
                 ->nullable();
 
