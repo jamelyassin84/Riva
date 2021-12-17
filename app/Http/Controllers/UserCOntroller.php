@@ -123,6 +123,7 @@ class UserController extends Controller
         $user['password'] = Hash::make($request->password);
 
         $user = User::create($user);
+
         return [
             'user' => $user,
             'message' => 'Created',

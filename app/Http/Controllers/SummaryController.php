@@ -17,19 +17,18 @@ class SummaryController extends Controller
     {
         $sales_summary = Summary::get()
             ->limit(5)
-            ->groupBy('product_id')
             ->with('products')
-            ->whereMonth('updated_at', $request->month)
+            ->groupBy('product_id')
+            ->whereMonth('updated_at', $request->month) # @var --> int
             ->where('user_id', $request->id);
 
         $top_selling_products = Summary::paginate(15)
-            ->groupBy('product_id')
             ->with('products')
-            ->whereMonth('updated_at', $request->month)
+            ->groupBy('product_id')
+            ->whereMonth('updated_at', $request->month) # @var --> int
             ->where('user_id', $request->id);
 
         return [
-
             'sales_summary' => $sales_summary,
             'top_selling_products' =>   $top_selling_products
         ];
