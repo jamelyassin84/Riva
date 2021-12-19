@@ -13,9 +13,8 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('product_name');
-            $table->string('image-url');
-            $table->string('slug');
-            $table->integer('quantity');
+            $table->string('image-url')->nullable();
+            $table->string('slug')->nullable();
             $table->string('currency', 3);
             $table->double('price');
             $table->string('brief_description')
