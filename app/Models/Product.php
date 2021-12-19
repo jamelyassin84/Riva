@@ -19,9 +19,7 @@ class Product extends Model
         'currency',
         'price',
         'discounted_price',
-        'size_type',
-        'sizes',
-        'colors',
+        'variants',
         'is_sold_out',
         'user_id'
     ];

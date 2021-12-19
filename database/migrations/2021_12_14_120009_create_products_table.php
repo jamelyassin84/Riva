@@ -27,16 +27,8 @@ class CreateProductsTable extends Migration
             $table->double('discounted_price')
                 ->nullable();
 
-            $table->string('size_type')
+            $table->string('variants')
                 ->nullable();
-
-            $table->integer('sizes')
-                ->nullable();
-
-            $table->string('colors')
-                ->nullable();
-
-            $table->boolean('is_sold_out');
 
             $table->integer('user_id')
                 ->foreignIdFor(User::class)
