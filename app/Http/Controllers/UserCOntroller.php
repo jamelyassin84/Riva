@@ -6,98 +6,92 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
-
-use function PHPUnit\Framework\isEmpty;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
 
-    public function login(User $request)
+    public function login(Request $request)
     {
         $user = $request->all();
 
-        if ($user->mode === 'Google') {
-            self::login_with_Google($user);
+        if ($user['mode'] === 'Google') {
+            return self::login_with_Google($user);
         }
 
-        if ($user->mode === 'Facebook') {
-            self::login_with_Facebook($user);
+        if ($user['mode'] === 'Facebook') {
+            return self::login_with_Facebook($user);
         }
 
-        if ($user->mode === 'Apple') {
-            self::login_with_Apple($user);
+        if ($user['mode'] === 'Apple') {
+            return self::login_with_Apple($user);
         }
-
-        self::default_login($user);
+        return self::default_login($user);
     }
 
-    public static function login_with_Google($user)
+    protected static function login_with_Google($user)
     {
         $user = User::where('google', $user->email)
             ->first();
 
-        if ($user . isEmpty()) {
+        if ($user->isEmpty()) {
             self::register($user);
         }
 
         return self::user($user);
     }
 
-    public static function login_with_Facebook($user)
+    protected static function login_with_Facebook($user)
     {
         $user = User::where('facebook', $user->email)
             ->first();
 
-        if ($user . isEmpty()) {
+        if ($user->isEmpty()) {
             self::register($user);
         }
 
         return self::user($user);
     }
 
-    public static function login_with_Apple($user)
+    protected static function login_with_Apple($user)
     {
         $user = User::where('apple', $user->email)
             ->first();
 
-        if ($user . isEmpty()) {
+        if ($user->isEmpty()) {
             self::register($user);
         }
 
         return self::user($user);
     }
 
-    public static function user($user)
+    protected static function user($user)
     {
         return [
             'user' => $user,
-            'token' => $user->remember_token,
+            'token' => self::updateToken($user->id),
             'message' => 'Signed-in',
         ];
     }
 
-    public static function default_login($user)
+    protected static function default_login($user)
     {
-        if ($user->mode === 'Default') {
-            $user = User::where('email', $user->email)->first();
+        if ($user['mode'] === 'Default') {
+            $data = User::where('email', $user['email'])->first();
 
-            if ($user . isEmpty()) {
+            if (empty($data)) {
                 return  response('User not Found', 404);
             }
 
-            $user = User::first()
-                ->where('email', $user->email)
-                ->where('password', Hash::make($user->password));
-
-            if ($user . isEmpty()) {
+            if (!Hash::check($user['password'], $data['password'])) {
                 return  response('Invalid Password', 401);
             }
-
-            return self::user($user);
+            return self::user($data);
         }
 
         return  response('Invalid Mode', 401);
     }
+
     public static function register(Request $request)
     {
         $user = $request->validate([
@@ -128,6 +122,14 @@ class UserController extends Controller
             'user' => $user,
             'message' => 'Created',
         ];
+    }
+
+    protected static function  updateToken($id)
+    {
+        $user = User::where('id', $id)->first();
+        $user->remember_token = Str::random(40);
+        $user->save();
+        return $user->remember_token;
     }
 
     public function update(Request $request, $id)

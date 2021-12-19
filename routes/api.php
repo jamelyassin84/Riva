@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/connection', function () {
+    return 'Connected';
+});
+
 Route::prefix('/auth/')->group(function () {
     Route::post('login', [UserController::class, 'login']);
     Route::post('register', [UserController::class, 'register']);
@@ -23,10 +27,10 @@ Route::prefix('/auth/')->group(function () {
 
 Route::middleware(['auth:sanctum'])->group(
     function () {
-
-
-        Route::resource('/products', ProductController::class);
-        Route::resource('/summary', SummaryController::class);
-        Route::post('/summary/show', [SummaryController::class, 'summary']);
+        Route::prefix('/')->group(function () {
+            Route::resource('products', ProductController::class);
+            Route::resource('summary', SummaryController::class);
+            Route::post('summary/show', [SummaryController::class, 'summary']);
+        });
     }
 );
