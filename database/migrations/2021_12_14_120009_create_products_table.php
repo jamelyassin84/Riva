@@ -14,7 +14,8 @@ class CreateProductsTable extends Migration
             $table->timestamps();
             $table->string('product_name');
             $table->string('image-url')->nullable();
-            $table->string('slug')->nullable();
+            $table->string('slug')
+                ->nullable();
             $table->string('currency', 3);
             $table->double('price');
             $table->string('brief_description')

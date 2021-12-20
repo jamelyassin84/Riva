@@ -14,7 +14,6 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        // $product['slug'] = join("-", explode(' ', $product['product_name']));
         Product::create($request->all());
         return response('Created', 200);
     }
