@@ -18,6 +18,21 @@ class Product extends Model
         'currency',
         'variants',
         'is_sold_out',
-        'user_id'
+        'user_id',
+        'slug'
     ];
+
+    public function getImageUrl($request)
+    {
+        $slug = '';
+
+        return $slug;
+    }
+
+    public function save_images($request)
+    {
+        $slug = '';
+
+        return $slug;
+    }
 }

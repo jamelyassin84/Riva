@@ -14,8 +14,10 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        Product::create($request->all());
-        return response('Created', 200);
+        $product = $request->all();
+        $product['slug'] = $this->toSlug($product['product_name'])
+            . '-' . $this->toSlug($product['brief_description']);
+        return Product::create($product);
     }
 
     public function show($id)
@@ -35,5 +37,10 @@ class ProductController extends Controller
         Product::findOrFail($id)->delete();
 
         return  response('Deleted', 200);
+    }
+
+    public static function toSlug($word)
+    {
+        return join('-', explode(' ', $word));
     }
 }
