@@ -28,7 +28,7 @@ class CreateProductsTable extends Migration
             $table->double('discounted_price')
                 ->nullable();
 
-            $table->string('variants')
+            $table->string('variants', 9999)
                 ->nullable();
 
             $table->integer('user_id')
