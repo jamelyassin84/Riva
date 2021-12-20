@@ -15,7 +15,6 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        // return $request->file('photos');
         $product = $request->all();
         $product['slug'] = $this->toSlug($product['product_name'])
             . '-' . $this->toSlug($product['brief_description']);
@@ -25,11 +24,13 @@ class ProductController extends Controller
         $product = Product::create($product);
 
         foreach ($process['urls'] as $url) {
-            ProductImages::create([
-                'product_id'
-                =>  $product->id,
-                'url' => $url,
-            ]);
+            if ($url !== '[]') {
+                ProductImages::create([
+                    'product_id'
+                    =>  $product->id,
+                    'url' => $url,
+                ]);
+            }
         }
 
         return   $product;

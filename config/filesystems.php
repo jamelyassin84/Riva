@@ -56,6 +56,10 @@ return [
             public_path('avatars') => storage_path('app/public/avatars'),
             public_path('products') => storage_path('app/public/products'),
         ],
+        'public_uploads' => [
+            'driver' => 'local',
+            'root'   => public_path() . '/uploads/',
+        ],
 
     ],
 
