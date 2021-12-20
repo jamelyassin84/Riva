@@ -38,7 +38,9 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        Product::where('user_id', $id)->get();
+        return Product::where('user_id', $id)
+            ->with('photos')
+            ->get();
     }
 
     public function update(Request $request,  $id)

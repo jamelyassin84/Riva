@@ -29,6 +29,11 @@ class Product extends Model
         'image-url'
     ];
 
+    public function photos()
+    {
+        return $this->hasMany(ProductImages::class, 'product_id', 'id');
+    }
+
     public static function getImageUrl($request)
     {
         $path = '';
