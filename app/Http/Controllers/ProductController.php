@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductImages;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -14,10 +15,24 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        // return $request->file('photos');
         $product = $request->all();
         $product['slug'] = $this->toSlug($product['product_name'])
             . '-' . $this->toSlug($product['brief_description']);
-        return Product::create($product);
+
+        $process = Product::getImageUrl($request);
+        $product['image-url'] =  $process['image-url'];
+        $product = Product::create($product);
+
+        foreach ($process['urls'] as $url) {
+            ProductImages::create([
+                'product_id'
+                =>  $product->id,
+                'url' => $url,
+            ]);
+        }
+
+        return   $product;
     }
 
     public function show($id)

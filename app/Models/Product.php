@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -19,20 +21,35 @@ class Product extends Model
         'variants',
         'is_sold_out',
         'user_id',
-        'slug'
+        'slug',
+        'image-url'
     ];
 
-    public function getImageUrl($request)
+    public static function getImageUrl($request)
     {
-        $slug = '';
-
-        return $slug;
+        $path = '';
+        $index = 0;
+        $files = $request->file('photos');
+        $urls = [];
+        if ($request->hasFile('photos')) {
+            foreach ($files as $file) {
+                if ($index === 0) {
+                    self::moveImageToProductsFolder($file);
+                    $path =  array_push($urls, self::moveImageToProductsFolder($file));
+                } else {
+                    array_push($urls, url()->current() . self::moveImageToProductsFolder($file));
+                }
+                $index += 1;
+            }
+        }
+        return [
+            'image-url' => url()->current() . $path,
+            'urls' => $urls
+        ];
     }
 
-    public function save_images($request)
+    static function moveImageToProductsFolder($file)
     {
-        $slug = '';
-
-        return $slug;
+        return Storage::put('products',  $file);
     }
 }
