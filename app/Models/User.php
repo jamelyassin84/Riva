@@ -20,6 +20,7 @@ class User extends Authenticatable
         'phone',
         'alt_phone',
         'mode',
+        'verification_code'
     ];
 
     protected $hidden = [

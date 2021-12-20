@@ -40,6 +40,12 @@ class CreateUsersTable extends Migration
 
             $table->string('apple')
                 ->nullable();
+
+            $table->integer('verification_code')
+                ->nullable();
+
+            $table->string('email_verified_at')
+                ->nullable();
         });
     }
 
