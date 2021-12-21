@@ -42,9 +42,17 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        return Product::where('user_id', $id)
+        $product = Product::where('user_id', $id)
             ->with('photos')
-            ->get();
+            ->first();
+
+        if (empty($product)) {
+            $product = Product::where('slug', $id)
+                ->with('photos')
+                ->first();
+        }
+
+        return $product;
     }
 
     public function update(Request $request,  $id)
