@@ -10,10 +10,15 @@ class ShippingInformation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'country',
-        'state',
+        'address',
         'city',
-        'address_line',
-        'zip_code',
+        'country',
+        'email',
+        'landMark',
+        'mobile',
+        'name',
+        'zipCode',
+        'product_id',
+        'seller',
     ];
 }

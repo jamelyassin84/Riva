@@ -7,7 +7,14 @@ use App\Models\ProductImages;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
+
+
 {
+    public function __construct()
+    {
+        $this->middleware('sanctum')->except(['show']);
+    }
+
     static function to_slug($word)
     {
         return join('-', explode(' ', $word));
@@ -37,19 +44,25 @@ class ProductController extends Controller
             ]);
         }
 
-        return $product;
+        return $request->user();
     }
 
     public function show($id)
     {
         $product = Product::where('user_id', $id)
             ->with('photos')
-            ->first();
+            ->get();
 
-        if (empty($product)) {
+        if (sizeof($product) === 0) {
             $product = Product::where('slug', $id)
                 ->with('photos')
                 ->first();
+
+            if (empty($product)) {
+                $product = Product::where('user_id', $id)
+                    ->with('photos')
+                    ->get();
+            }
         }
 
         return $product;

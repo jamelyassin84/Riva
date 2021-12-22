@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Str;
@@ -69,7 +70,7 @@ class UserController extends Controller
     {
         return [
             'user' => $user,
-            'token' => self::updateToken($user->id),
+            'token' =>  self::updateToken($user->id),
             'message' => 'Signed-in',
         ];
     }
@@ -115,21 +116,29 @@ class UserController extends Controller
         }
 
         $user['password'] = Hash::make($request->password);
-
         $user = User::create($user);
+        $stripeCustomer = $user->createOrGetStripeCustomer();;
 
         return [
             'user' => $user,
             'message' => 'Created',
+            'stripe' =>   $stripeCustomer
         ];
     }
 
-    protected static function  updateToken($id)
+    protected static function updateToken($id, $abilities = ['*'])
     {
         $user = User::where('id', $id)->first();
-        $user->remember_token = Str::random(40);
+
+        $ip = request()->ip();
+
+        $token =  $user->createToken("{$user->name}|{$ip}", $abilities);
+
+        $user->remember_token = null;
+
         $user->save();
-        return $user->remember_token;
+
+        return $token;
     }
 
     public function update(Request $request, $id)

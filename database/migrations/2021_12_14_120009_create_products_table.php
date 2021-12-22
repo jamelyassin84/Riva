@@ -22,13 +22,13 @@ class CreateProductsTable extends Migration
             $table->string('brief_description')
                 ->nullable();
 
-            $table->string('description', 9999)
+            $table->string('description', 999)
                 ->nullable();
 
             $table->double('discounted_price')
                 ->nullable();
 
-            $table->string('variants', 9999)
+            $table->string('variants', 999)
                 ->nullable();
 
             $table->integer('user_id')
