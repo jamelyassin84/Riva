@@ -12,7 +12,6 @@ Route::get('/connection', function () {
     return 'Connected';
 });
 
-Route::resource('/ship', ShippingInformationController::class);
 
 Route::prefix('/auth/')->group(function () {
     Route::post('login', [UserController::class, 'login']);
@@ -22,6 +21,7 @@ Route::prefix('/auth/')->group(function () {
 Route::prefix('/')->group(
     function () {
         Route::resource('products', ProductController::class);
+        Route::resource('ship', ShippingInformationController::class);
     }
 );
 

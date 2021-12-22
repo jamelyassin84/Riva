@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ShippingInformation;
 use App\Http\Requests\UpdateShippingInformationRequest;
+use App\Models\Buyers;
 use Illuminate\Http\Request;
 
 class ShippingInformationController extends Controller
@@ -13,13 +14,19 @@ class ShippingInformationController extends Controller
     {
         $data = $request->all();
 
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+
+        $buyer =  $stripe->customers->create(['description' => $data['name']]);
+
+        Buyers::create($buyer);
+        $buyer->buyer_id =  $buyer['id'];
+        Buyers::create($buyer->invoice_settings);
+
         $data['product_id'] =  $data['product']['id'];
 
         $data['seller'] =  $data['product']['user_id'];
 
-        return $request->user()->checkout($data['product']['product_name']);
-
-        return ShippingInformation::create($data);
+        return ShippingInformation::create(json_decode($data));
     }
 
     public function show(Request $shippingInformation)
