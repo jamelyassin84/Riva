@@ -5,20 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductImages;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
-
-
 {
     public function __construct()
     {
-        $this->middleware('sanctum')->except(['show']);
+        $this->middleware('auth:sanctum')->except('show');
     }
 
-    static function to_slug($word)
-    {
-        return join('-', explode(' ', $word));
-    }
     public function index()
     {
         return Product::all();
@@ -28,8 +23,7 @@ class ProductController extends Controller
     {
         $product = $request->all();
 
-        $product['slug'] = $this->to_slug($product['product_name'])
-            . '-' . $this->to_slug($product['brief_description']);
+        $product['slug'] = Str::slug($product['product_name'] . '-' . $product['brief_description'], '-');
 
         $process = Product::getImageUrl($request);
 
