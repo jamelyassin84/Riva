@@ -39,3 +39,6 @@ MailGun
 Twilio
 Stripe
 Sockets.io
+
+
+php ini memory_size

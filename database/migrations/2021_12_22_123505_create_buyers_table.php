@@ -11,7 +11,7 @@ class CreateBuyersTable extends Migration
         Schema::create('buyers', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('address');
+            $table->string('buyer_id');
             $table->string('balance');
             $table->string('created');
             $table->string('currency');
@@ -20,7 +20,6 @@ class CreateBuyersTable extends Migration
             $table->string('description');
             $table->string('discount');
             $table->string('email');
-            $table->string('buyer_id');
             $table->string('invoice_prefix');
             $table->string('livemode');
             $table->string('metadata');
@@ -29,7 +28,6 @@ class CreateBuyersTable extends Migration
             $table->string('object');
             $table->string('phone');
             $table->string('preferred_locales');
-            $table->string('shipping');
             $table->string('tax_exempt');
         });
     }
