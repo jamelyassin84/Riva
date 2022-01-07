@@ -8,14 +8,21 @@ use App\Http\Requests\UpdateProductImagesRequest;
 
 class ProductImagesController extends Controller
 {
-
-
+    public function index()
+    {
+        //
+    }
     public function store(StoreProductImagesRequest $request)
     {
         //
     }
 
     public function show(ProductImages $productImages)
+    {
+        //
+    }
+
+    public function update(UpdateProductImagesRequest $request, ProductImages $productImages)
     {
         //
     }

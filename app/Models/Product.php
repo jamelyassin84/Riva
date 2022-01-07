@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use finfo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
@@ -16,22 +14,28 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'product_name',
-        'brief_description',
-        'price',
-        'description',
-        'discounted_price',
-        'currency',
-        'variants',
-        'is_sold_out',
         'user_id',
+        'name',
+        'url',
         'slug',
-        'image-url'
+        'currency',
+        'price',
+        'discounted_price',
+        'brief_description',
+        'description',
+        'quantity',
+        'is_sold_out',
+        'is_temporary_unavailable',
     ];
 
     public function photos()
     {
         return $this->hasMany(ProductImages::class, 'product_id', 'id');
+    }
+
+    public function variants()
+    {
+        return $this->hasMany(Variant::class, 'product_id', 'id');
     }
 
     public static function getImageUrl($request)
@@ -51,7 +55,7 @@ class Product extends Model
             }
         }
         return [
-            'image-url' => $path,
+            'url' => $path,
             'urls' => $urls
         ];
     }

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Http\Requests\StoreProductRequest;
 use App\Models\ProductImages;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -19,7 +20,7 @@ class ProductController extends Controller
         return Product::all();
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
         $product = $request->all();
 
@@ -27,7 +28,7 @@ class ProductController extends Controller
 
         $process = Product::getImageUrl($request);
 
-        $product['image-url'] =  $process['image-url'];
+        $product['url'] =  $process['url'];
 
         $product = Product::create($product);
 
@@ -45,16 +46,19 @@ class ProductController extends Controller
     {
         $product = Product::where('user_id', $id)
             ->with('photos')
+            ->with('variants')
             ->get();
 
         if (sizeof($product) === 0) {
             $product = Product::where('slug', $id)
                 ->with('photos')
+                ->with('variants')
                 ->first();
 
             if (empty($product)) {
                 $product = Product::where('user_id', $id)
                     ->with('photos')
+                    ->with('variants')
                     ->get();
             }
         }

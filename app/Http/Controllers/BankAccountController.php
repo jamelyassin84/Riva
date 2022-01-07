@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateBankAccountRequest;
 
 class BankAccountController extends Controller
 {
+
     public function index()
     {
         //
@@ -19,6 +20,11 @@ class BankAccountController extends Controller
     }
 
     public function show(BankAccount $bankAccount)
+    {
+        //
+    }
+
+    public function update(UpdateBankAccountRequest $request, BankAccount $bankAccount)
     {
         //
     }

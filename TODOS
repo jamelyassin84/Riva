@@ -1,44 +1,11 @@
-## Tables
+PayTabs 
 
-User
-Summary
-Product
-ProductImages
-ShippingInformation
-PaymentMethod
-CardInfo
-RecentTransactions
-BankAccount
+Refactor Database
+Refactor Models 
 
-## Seller
+Seed Admin 
+Seed Seller 
+Seed Product
 
-Sig-in
-Log-in
-Manage Product
-View Transactions
-Manage Bank Account
-Edit Profile
-Change Pass
-Generate Link
-Be Notify by mail
-Be Notify by sms
-
-## Buyer
-
-Click Link
-View Product
-Choose Product
-Enter Personal Information
-Enter Shipping Information
-Choose Payment Method
-Make Payment
-
-## 3rd Party Libraries
-
-MailGun
-Twilio
-Stripe
-Sockets.io
-
-
-php ini memory_size
+Edit Seller profile_id 
+Create Paytabs

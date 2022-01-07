@@ -10,12 +10,29 @@ class Summary extends Model
     use HasFactory;
 
     protected $fillable = [
+        'buyer_id',
+        'seller_id',
         'product_id',
-        'user_id',
+        'amount',
+        'quantity',
+        'reference_number'
     ];
 
-    public function  products()
+    public function product()
     {
+
         return $this->hasOne(Product::class, 'id', 'product_id');
+    }
+
+    public function varieties()
+    {
+        return $this->hasManyThrough(
+            Variant::class,
+            PreferredVariant::class,
+            'variant_id',
+            'summary_id',
+            'id',
+            'id'
+        );
     }
 }

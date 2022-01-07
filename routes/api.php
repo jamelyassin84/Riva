@@ -1,35 +1,28 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\FlagController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ShippingInformationController;
 use App\Http\Controllers\SummaryController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/connection', function () {
-    return 'Connected';
-});
-
-
 Route::prefix('/auth/')->group(function () {
-    Route::post('login', [UserController::class, 'login']);
-    Route::post('register', [UserController::class, 'register']);
+    Route::post('login', [LoginController::class, 'login']);
+    Route::post('register', [RegistrationController::class, 'register']);
 });
 
 Route::prefix('/')->group(
     function () {
+        Route::resource('check-out', SummaryController::class);
+        Route::resource('transactions', SummaryController::class);
+        Route::get('flag/{iso}', [FlagController::class, 'flag']);
         Route::resource('products', ProductController::class);
-        Route::resource('ship', ShippingInformationController::class);
     }
 );
 
-Route::middleware(['auth:sanctum'])->group(
+Route::middleware('auth:sanctum')->prefix('/')->group(
     function () {
-        Route::prefix('/')->group(function () {
-            Route::resource('summary', SummaryController::class);
-            Route::post('summary/show', [SummaryController::class, 'summary']);
-        });
     }
 );

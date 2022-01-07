@@ -9,14 +9,17 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "friendsofphp/php-cs-fixer": "^3.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/cashier": "^13.6",
-        "laravel/framework": "^8.65",
+        "laminas/laminas-diactoros": "^2.8",
+        "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/telescope": "^4.6",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "nyholm/psr7": "^1.4",
+        "pragmarx/countries": "^0.7.2",
+        "symfony/psr-http-message-bridge": "^2.1",
+        "twilio/sdk": "^6.32"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
