@@ -21,15 +21,15 @@ class RegistrationController extends Controller
             $user = $request->validate([
                 'name' => ['required', 'min:8'],
                 'email' => ['email:rfc,dns', 'unique:users'],
-                'password' => [
-                    'required',
-                    Password::min(8)
-                        ->letters()
-                        ->mixedCase()
-                        ->numbers()
-                        ->symbols()
-                        ->uncompromised()
-                ],
+                // 'password' => [
+                //     'required',
+                //     Password::min(8)
+                //         ->letters()
+                //         ->mixedCase()
+                //         ->numbers()
+                //         ->symbols()
+                //         ->uncompromised()
+                // ],
             ]);
         }
         $user['password'] = Hash::make($request->password);
@@ -44,9 +44,30 @@ class RegistrationController extends Controller
             'verification_code' => '',
         ];
         $seller = Seller::create($seller);
+        return self::user($user);
+    }
+
+    protected static function user($user)
+    {
         return [
             'user' => $user,
-            'seller' =>   $seller
+            'token' =>  self::updateToken($user->id),
+            'message' => 'Signed-in',
         ];
+    }
+
+    protected static function updateToken($id, $abilities = ['*'])
+    {
+        $user = User::where('id', $id)->first();
+
+        $ip = request()->ip();
+
+        $token =  $user->createToken("{$user->name}|{$ip}", $abilities);
+
+        $user->remember_token = null;
+
+        $user->save();
+
+        return $token;
     }
 }
