@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\FlagController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SummaryController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -24,5 +25,7 @@ Route::prefix('/')->group(
 
 Route::middleware('auth:sanctum')->prefix('/')->group(
     function () {
+        Route::post('change_password', [UserController::class, 'change_password']);
+        Route::post('change_details', [UserController::class, 'change_details']);
     }
 );
