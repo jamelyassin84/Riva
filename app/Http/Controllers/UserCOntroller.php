@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Seller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
@@ -36,8 +35,12 @@ class UserController extends Controller
     public function change_details(Request $request)
     {
         $data = (object) $request->all();
-        $user = $data->user();
+        $user =  $request->user();
+        if (empty($user)) {
+            return response('This account has been moved or deleted ', 401);
+        }
         $user->email = $data->email;
-        return $user->save();
+        $user->save();
+        return $user;
     }
 }
