@@ -13,6 +13,7 @@ class RegistrationController extends Controller
 {
     public static function register(Request $request)
     {
+        $data  = (object) $request->all();
         $user = $request->validate([
             'mode' => ['required'],
         ]);
@@ -42,6 +43,7 @@ class RegistrationController extends Controller
             'facebook' => '',
             'apple' => '',
             'verification_code' => '',
+            'type' => $data->type
         ];
         $seller = Seller::create($seller);
         return self::user($user);
@@ -59,15 +61,10 @@ class RegistrationController extends Controller
     protected static function updateToken($id, $abilities = ['*'])
     {
         $user = User::where('id', $id)->first();
-
         $ip = request()->ip();
-
         $token =  $user->createToken("{$user->name}|{$ip}", $abilities);
-
         $user->remember_token = null;
-
         $user->save();
-
         return $token;
     }
 }

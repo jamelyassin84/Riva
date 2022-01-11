@@ -35,7 +35,6 @@ class SMSController extends Controller
             ]
         );
         return self::update_seller_verification_code(
-            $seller->id,
             $verification_code,
             $user,
         );
@@ -47,11 +46,10 @@ class SMSController extends Controller
     }
 
     static function update_seller_verification_code(
-        int $id,
         int $verification_code,
         User $user,
     ) {
-        $seller = Seller::find($id)->first();
+        $seller = Seller::where('user_id', $user->id)->first();
         $seller->verification_code = $verification_code;
         return [
             'seller' => $seller->save(),
@@ -66,5 +64,29 @@ class SMSController extends Controller
             array_push($verification_code,   rand(0, 9));
         }
         return join('', $verification_code);
+    }
+
+
+    public function resend(Request $request)
+    {
+        $user = $request->user();
+        $seller = Seller::where('user_id', $user->id)->first();
+        if (empty($seller)) {
+            return response('Seller may have been moved or deleted.', 401);
+        }
+        $client = new SMS(env('TwilioAccountSID'), env('TwilioAuthToken'));
+        $verification_code = self::generate_code();
+        $client->messages->create(
+            $user->phone,
+            [
+                'from' => env('TwilioTrialPhoneNumber'),
+                'body' => "Your Rive verification code is:"
+                    . $verification_code
+            ]
+        );
+        return self::update_seller_verification_code(
+            $verification_code,
+            $user,
+        );
     }
 }
