@@ -16,10 +16,17 @@ class SMSController extends Controller
 
     public static function send_sms(Request $request)
     {
+        $user = $request->user();
         $data = (object) $request->all();
+        $user->phone =  self::resolve_phone_number(971, $data->phone);
+        $user->save();
+        $seller = Seller::where('user_id', $user->id)->first();
+        if (empty($seller)) {
+            return response('Seller may have been moved or deleted.', 401);
+        }
         $client = new SMS(env('TwilioAccountSID'), env('TwilioAuthToken'));
         $verification_code = self::generate_code();
-        $twilio = $client->messages->create(
+        $client->messages->create(
             self::resolve_phone_number(971, $data->phone),
             [
                 'from' => env('TwilioTrialPhoneNumber'),
@@ -27,13 +34,6 @@ class SMSController extends Controller
                     . $verification_code
             ]
         );
-        $user = $request->user();
-        $user->phone =  self::resolve_phone_number(971, $data->phone);
-        $user = $user->save();
-        $seller = Seller::where('user_id', $user->id)->first();
-        if (empty($seller)) {
-            return response('Seller may have been moved or deleted.', 401);
-        }
         return self::update_seller_verification_code(
             $seller->id,
             $verification_code,
