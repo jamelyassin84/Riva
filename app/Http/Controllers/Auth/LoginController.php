@@ -30,7 +30,10 @@ class LoginController extends Controller
     protected static function default_login($user)
     {
         if ($user->mode === 'Default') {
-            $data = User::where('email', $user->email)->first();
+            $data = User::where('email', $user->email)
+                ->where('type', 'seller')
+                ->first();
+
             if (empty($data)) return response('User not Found', 404);
 
             $seller = Seller::where('user_id', $data->id)->first();

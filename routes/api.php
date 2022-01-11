@@ -10,12 +10,18 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\FlagController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SMSController;
+use App\Http\Controllers\StorePaymentController;
+use App\Http\Controllers\SummaryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
+Route::post('/pay-tabs', [StorePaymentController::class, 'store']);
 
 Route::prefix('/auth/')->group(function () {
     Route::post('login', [LoginController::class, 'login']);
     Route::post('register', [RegistrationController::class, 'register']);
+    Route::post('log_out', [LogOutController::class, 'log_out']);
+    Route::post('send_code', [VerifyController::class, 'verify_code']);
 });
 
 Route::prefix('/')->group(
@@ -29,8 +35,7 @@ Route::prefix('/')->group(
 
 Route::middleware('auth:sanctum')->prefix('/')->group(
     function () {
-        Route::post('log_out', [LogOutController::class, 'log_out']);
-        Route::post('send_code', [VerifyController::class, 'verify_code']);
+        Route::resource('transactions', SummaryController::class);
         Route::post('verify', [SMSController::class, 'send_sms']);
         Route::post('resend', [SMSController::class, 'resend']);
         Route::post('change_password', [UserController::class, 'change_password']);
