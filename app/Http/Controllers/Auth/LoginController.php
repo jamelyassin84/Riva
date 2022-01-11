@@ -10,57 +10,44 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
+    public function __construct()
+    {
+        return $this;
+    }
+
     public function login(Request $request)
     {
-        $user = $request->all();
+        $data = (object) $request->all();
+        if ($data->mode === 'Google') return $this->login_with_socials($data, 'google');
 
-        if ($user['mode'] === 'Google') {
-            return self::login_with_Google($user);
-        }
+        if ($data->mode === 'Facebook') return $this->login_with_socials($data, 'facebook');
 
-        if ($user['mode'] === 'Facebook') {
-            return self::login_with_Facebook($user);
-        }
+        if ($data->mode === 'Apple') return $this->login_with_socials($data, 'apple');
 
-        if ($user['mode'] === 'Apple') {
-            return self::login_with_Apple($user);
-        }
-        return self::default_login($user);
+        return $this->default_login($data);
     }
 
-    protected static function login_with_Google($user)
+    protected static function default_login($user)
     {
-        $user = User::where('google', $user->email)
-            ->first();
+        if ($user->mode === 'Default') {
+            $data = User::where('email', $user->email)->first();
+            if (empty($data)) return response('User not Found', 404);
 
-        if ($user->isEmpty()) {
-            RegistrationController::register($user);
+            $seller = Seller::where('user_id', $data->id)->first();
+
+            if (empty($seller)) return response('User not Found', 404);
+
+            if (!Hash::check($user->password, $seller->password)) return response('Invalid Password', 401);
+
+            return self::user($data);
         }
-
-        return self::user($user);
+        return response('Invalid Mode', 401);
     }
 
-    protected static function login_with_Facebook($user)
+    protected static function login_with_socials($data, string $social)
     {
-        $user = User::where('facebook', $user->email)
-            ->first();
-
-        if ($user->isEmpty()) {
-            RegistrationController::register($user);
-        }
-
-        return self::user($user);
-    }
-
-    protected static function login_with_Apple($user)
-    {
-        $user = User::where('apple', $user->email)
-            ->first();
-
-        if ($user->isEmpty()) {
-            RegistrationController::register($user);
-        }
-
+        $user = User::where($social, $data->email)->first();
+        if (empty($user)) return RegistrationController::register($user);
         return self::user($user);
     }
 
@@ -73,45 +60,13 @@ class LoginController extends Controller
         ];
     }
 
-    protected static function default_login($user)
-    {
-        if ($user->user()) {
-            $user->user()->currentAccessToken()->delete();
-        }
-        if ($user['mode'] === 'Default') {
-            $data = User::where('email', $user['email'])->first();
-
-            if (empty($data)) {
-                return  response('User not Found', 404);
-            }
-
-            $seller = Seller::where('user_id', $data->id)->first();
-
-            if (empty($seller)) {
-                return  response('User not Found', 404);
-            }
-
-            if (!Hash::check($user['password'], $seller['password'])) {
-                return  response('Invalid Password', 401);
-            }
-            return self::user($data);
-        }
-
-        return  response('Invalid Mode', 401);
-    }
-
     protected static function updateToken($id, $abilities = ['*'])
     {
-        $user = User::where('id', $id)->first();
-
+        $user = User::find($id)->first();
         $ip = request()->ip();
-
-        $token =  $user->createToken("{$user->name}|{$ip}", $abilities);
-
+        $token = $user->createToken("{$user->name}|{$ip}", $abilities);
         $user->remember_token = null;
-
         $user->save();
-
         return $token;
     }
 }
