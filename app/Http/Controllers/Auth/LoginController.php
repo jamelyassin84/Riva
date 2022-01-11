@@ -75,6 +75,9 @@ class LoginController extends Controller
 
     protected static function default_login($user)
     {
+        if ($user->user()) {
+            $user->user()->currentAccessToken()->delete();
+        }
         if ($user['mode'] === 'Default') {
             $data = User::where('email', $user['email'])->first();
 
