@@ -9,6 +9,7 @@ use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\FlagController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SellerController;
 use App\Http\Controllers\SMSController;
 use App\Http\Controllers\StorePaymentController;
 use App\Http\Controllers\SummaryController;
@@ -35,6 +36,7 @@ Route::prefix('/')->group(
 
 Route::middleware('auth:sanctum')->prefix('/')->group(
     function () {
+        Route::resource('seller', SellerController::class);
         Route::resource('transactions', SummaryController::class);
         Route::resource('bank-account', BankAccountController::class);
         Route::post('verify', [SMSController::class, 'send_sms']);

@@ -18,9 +18,9 @@ class SellerController extends Controller
         //
     }
 
-    public function show(Seller $seller)
+    public function show($id)
     {
-        //
+        return Seller::where('user_id', $id)->first();
     }
 
     public function update(UpdateSellerRequest $request, Seller $seller)
