@@ -3,34 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\BankAccount;
-use App\Http\Requests\StoreBankAccountRequest;
 use App\Http\Requests\UpdateBankAccountRequest;
+use Illuminate\Http\Request;
 
 class BankAccountController extends Controller
 {
-
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('auth:sanctum');
     }
 
-    public function store(StoreBankAccountRequest $request)
+    public function show($id)
     {
-        //
+        return BankAccount::where('seller_id', $id)->first();
     }
 
-    public function show(BankAccount $bankAccount)
+    public function store(Request $request)
     {
-        //
-    }
-
-    public function update(UpdateBankAccountRequest $request, BankAccount $bankAccount)
-    {
-        //
-    }
-
-    public function destroy(BankAccount $bankAccount)
-    {
-        //
+        $data = (object) $request->all();
+        $user = $request->user();
+        $data->seller_id = $user->id;
+        $bankAccount = BankAccount::where('seller_id', $user->id)->first();
+        if (empty($bankAccount)) {
+            $bankAccount = BankAccount::create($data);
+        }
+        return $bankAccount->fill($data)->save();
     }
 }

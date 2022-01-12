@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Buyer;
 use App\Models\BuyerInformation;
 use App\Models\Product;
+use App\Models\Seller;
 use App\Models\Summary;
 use App\Models\User;
 use GuzzleHttp\Client;
@@ -61,7 +63,9 @@ class StorePaymentController extends Controller
                 'zip_code' => '',
             ]);
         }
+
         $product = Product::find($data->cart_id);
+
         $summary = [
             'buyer_id' => $user->id,
             'seller_id' => $product->user_id,
@@ -70,7 +74,11 @@ class StorePaymentController extends Controller
             'quantity' => 1,
             'reference_number' => $data->tran_ref
         ];
+        $seller = Seller::where('user_id', $product->user_id)->first();
+        $seller->balance += Admin::deduct_app_transaction_fee($data->cart_amount);
+        $seller->save();
         $seller = User::where('id', $product->user_id)->first();
+
         $transaction = Summary::where('reference_number', $data->tran_ref)->first();
         if (!empty($transaction)) {
             return [
@@ -83,6 +91,10 @@ class StorePaymentController extends Controller
         }
 
         $summary = Summary::create($summary);
+        $admin = Admin::find(1)->first();
+        $admin->application_fee_amount += $data->cart_amount;
+        $admin->save();
+
         return [
             'buyer' => $user,
             'seller' => $seller,

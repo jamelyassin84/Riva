@@ -20,4 +20,10 @@ class Admin extends Model
     protected $hidden = [
         'password',
     ];
+
+
+    public static function deduct_app_transaction_fee($amount)
+    {
+        return $amount - ($amount * .03);
+    }
 }

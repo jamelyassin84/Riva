@@ -4,7 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogOutController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\VerifyController;
-
+use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\FlagController;
@@ -36,6 +36,7 @@ Route::prefix('/')->group(
 Route::middleware('auth:sanctum')->prefix('/')->group(
     function () {
         Route::resource('transactions', SummaryController::class);
+        Route::resource('bank-account', BankAccountController::class);
         Route::post('verify', [SMSController::class, 'send_sms']);
         Route::post('resend', [SMSController::class, 'resend']);
         Route::post('change_password', [UserController::class, 'change_password']);

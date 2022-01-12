@@ -3,12 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Summary;
-use App\Http\Requests\UpdateSummaryRequest;
-use App\Models\Buyer;
-use App\Models\BuyerInformation;
-use App\Models\User;
-use Illuminate\Http\Request;
-use GuzzleHttp\Client;
 
 class SummaryController extends Controller
 {
