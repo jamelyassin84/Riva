@@ -1,8 +1,1 @@
-
-
-Send Only Product In variant to check out 
-Return Redirect Url or Fail 
-Return Url sa Congrats
-Fetch Data 
-SEnd Back Data to Server 
-Save Transaction
+https://stripe.com/docs/api/checkout/sessions/retrieve

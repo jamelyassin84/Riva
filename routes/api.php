@@ -6,17 +6,20 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\VerifyController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\BuyerController;
-use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\FlagController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\SMSController;
 use App\Http\Controllers\StorePaymentController;
+use App\Http\Controllers\StoreStripeDataController;
+use App\Http\Controllers\StripeCheckOut;
 use App\Http\Controllers\SummaryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/pay-tabs', [StorePaymentController::class, 'store']);
+Route::post('/stripe', [StoreStripeDataController::class, 'store']);
+
 
 Route::prefix('/auth/')->group(function () {
     Route::post('login', [LoginController::class, 'login']);
@@ -28,7 +31,7 @@ Route::prefix('/auth/')->group(function () {
 Route::prefix('/')->group(
     function () {
         Route::get('flag/{iso}', [FlagController::class, 'flag']);
-        Route::post('check-out', [CheckoutController::class, 'check_out']);
+        Route::post('check-out', [StripeCheckOut::class, 'check_out']);
         Route::resource('rive-customer', BuyerController::class);
         Route::resource('products', ProductController::class);
     }
