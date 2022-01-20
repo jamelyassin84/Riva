@@ -13,4 +13,9 @@ class PreferredVariant extends Model
         'summary_id',
         'variant_id',
     ];
+
+    public function variant()
+    {
+        return $this->hasOne(Variant::class, 'id', 'variant_id');
+    }
 }

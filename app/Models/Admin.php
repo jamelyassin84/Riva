@@ -24,6 +24,6 @@ class Admin extends Model
 
     public static function deduct_app_transaction_fee($amount)
     {
-        return $amount - ($amount * .03);
+        return $amount - ($amount * env('RIVE_APPLICATION_FEE'));
     }
 }

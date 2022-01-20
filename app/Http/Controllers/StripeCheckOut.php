@@ -45,10 +45,24 @@ class StripeCheckOut extends Controller
 
             ]],
             'mode' => 'payment',
-            'metadata'  => ['id' => $data->product->id],
+            'submit_type' => 'pay',
+            'phone_number_collection' => [
+                'enabled' => true
+            ],
+            'shipping_address_collection' => [
+                'allowed_countries' => ['AE'],
+            ],
+            'billing_address_collection' => 'auto',
+            'customer_creation' => 'always',
+            'locale' => 'auto',
+            'metadata'  => [
+                'id' => $data->product->id,
+                'chosenVariants' => json_encode($data->chosenVariants),
+            ],
             'success_url' => env('FRONT_END_REDIRECT_URL_AFTER_CHECK_OUT'),
             'cancel_url' => env('FRONT_END_REDIRECT_URL_IF_CANCELED') . $data->product->slug,
         ];
+
 
         $request = Stripe\Checkout\Session::create($body);
 
