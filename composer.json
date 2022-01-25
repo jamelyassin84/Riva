@@ -58,7 +58,7 @@
         ],
         "recharge": [
             "Composer\\Config::disableProcessTimeout",
-            "@php artisan migrate:fresh --seed && php artisan serve"
+            "@php artisan migrate:fresh --seed "
         ]
     },
     "extra": {

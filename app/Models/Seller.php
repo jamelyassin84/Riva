@@ -18,6 +18,7 @@ class Seller extends Model
         'apple',
         'verification_code',
         'balance',
+        'stripe_id',
     ];
 
     protected $hidden = [
