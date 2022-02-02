@@ -13,14 +13,17 @@ use App\Http\Controllers\SMSController;
 use App\Http\Controllers\StorePaymentController;
 use App\Http\Controllers\StoreStripeDataController;
 use App\Http\Controllers\StripeCheckOut;
+use App\Http\Controllers\StripeConnectAccountOnBoardingController;
 use App\Http\Controllers\StripePayoutController;
 use App\Http\Controllers\SummaryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/pay-tabs', [StorePaymentController::class, 'store']);
 Route::post('/stripe', [StoreStripeDataController::class, 'store']);
-Route::post('/pay-out', [StripePayoutController::class, 'pay_out']);
+Route::post('/on-board', [StripeConnectAccountOnBoardingController::class, 'on_board']);
+Route::post('/pay-out', [StripeConnectAccountOnBoardingController::class, 'transfer_payment']);
+// Route::post('/pay-out', [StripePayoutController::class, 'pay_out']);
+// Route::post('/pay-tabs', [StorePaymentController::class, 'store']);
 
 
 Route::prefix('/auth/')->group(function () {

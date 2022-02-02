@@ -19,6 +19,7 @@ class Seller extends Model
         'verification_code',
         'balance',
         'stripe_id',
+        'completed_account_onboarding'
     ];
 
     protected $hidden = [

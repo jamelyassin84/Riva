@@ -18,6 +18,7 @@ class CreateSellersTable extends Migration
                 ->onDelete('cascade');
 
             $table->string('stripe_id')->nullable();
+            $table->boolean('completed_account_onboarding')->nullable();
             $table->string('avatar')->nullable();
             $table->string('password')->nullable();
             $table->string('mode')->nullable();
